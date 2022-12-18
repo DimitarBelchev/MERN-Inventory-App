@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Routes Middleware
 app.use("/api/users", userRoute);

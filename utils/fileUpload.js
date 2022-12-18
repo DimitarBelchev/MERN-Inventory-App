@@ -3,13 +3,13 @@ const multer = require("multer");
 // Define file storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads");
+    cb(null, "images");
   },
   filename: function (req, file, cb) {
     cb(
       null,
       new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
-    ); // 23/08/2022
+    ); // 18/12/2022
   },
 });
 
