@@ -21,7 +21,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a password"],
       minLength: [6, "Password must be up to 6 characters"],
-      //   maxLength: [23, "Password must not be more than 23 characters"],
     },
     photo: {
       type: String,
@@ -30,12 +29,12 @@ const userSchema = mongoose.Schema(
     },
     phone: {
       type: String,
-      default: "+234",
+      default: "+666",
     },
     bio: {
       type: String,
       maxLength: [250, "Bio must not be more than 250 characters"],
-      default: "bio",
+      default: "Write something interesting about yourself...",
     },
   },
   {
