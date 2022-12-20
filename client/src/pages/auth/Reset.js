@@ -28,6 +28,9 @@ const Reset = () => {
     if (password.length < 6) {
       return toast.error("Passwords must be up to 6 characters");
     }
+    if (password.length > 20) {
+      return toast.error("Passwords must be less than 20 characters");
+    }
     if (password !== password2) {
       return toast.error("Passwords do not match");
     }
