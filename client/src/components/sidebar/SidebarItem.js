@@ -8,7 +8,7 @@ const activeSublink = ({ isActive }) => (isActive ? "active" : "link");
 const SidebarItem = ({ item, isOpen }) => {
   const [expandMenu, setExpandMenu] = useState(false);
 
-  if (item.childrens) {
+  if (item.children) {
     return (
       <div
         className={
@@ -27,7 +27,7 @@ const SidebarItem = ({ item, isOpen }) => {
           />
         </div>
         <div className="sidebar-content">
-          {item.childrens.map((child, index) => {
+          {item.children.map((child, index) => {
             return (
               <div key={index} className="s-child">
                 <NavLink to={child.path} className={activeSublink}>

@@ -37,6 +37,9 @@ const Register = () => {
     if (password.length < 6) {
       return toast.error("Passwords must be up to 6 characters");
     }
+    if (password.length > 20) {
+      return toast.error("Passwords must be less than 20 characters");
+    }
     if (!validateEmail(email)) {
       return toast.error("Please enter a valid email");
     }
