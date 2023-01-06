@@ -1,31 +1,35 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import Forgot from "./pages/auth/Forgot";
-import Reset from "./pages/auth/Reset";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Sidebar from "./components/sidebar/Sidebar";
-import Layout from "./components/layout/Layout";
-import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { getLoginStatus } from "./services/authService";
+import Layout from "./components/layout/Layout";
+import Sidebar from "./components/sidebar/Sidebar";
+import Forgot from "./pages/auth/Forgot";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Reset from "./pages/auth/Reset";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Home from "./pages/home/Home";
 import { SET_LOGIN } from "./redux/features/auth/authSlice";
+import { getLoginStatus } from "./services/authService";
+import { useDispatch } from "react-redux";
+import NotFound from "./pages/notFound/NotFound";
 import AddProduct from "./pages/addProduct/AddProduct";
 import ProductDetail from "./components/product/productDetail/ProductDetail";
-import EditProduct from "./pages/editProduct/EditProduct";
+import EditProduct from "./pages/editProduct/EditProduct.js";
 import Profile from "./pages/profile/Profile";
-import EditProfile from "./pages/profile/EditProfile";
+import ProfileUpdate from "./pages/profile/ProfileUpdate";
 import Contact from "./pages/contact/Contact";
 
 axios.defaults.withCredentials = true;
 
+export const SERVER_URL = process.env.REACT_APP_BACKEND_URL;
+
 function App() {
   const dispatch = useDispatch();
 
+  // Check if user is logged in
   useEffect(() => {
     async function loginStatus() {
       const status = await getLoginStatus();
@@ -45,7 +49,7 @@ function App() {
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
 
         <Route
-          path="/dashboard"
+          path="dashboard"
           element={
             <Sidebar>
               <Layout>
@@ -55,7 +59,7 @@ function App() {
           }
         />
         <Route
-          path="/add-product"
+          path="add-product"
           element={
             <Sidebar>
               <Layout>
@@ -95,11 +99,11 @@ function App() {
           }
         />
         <Route
-          path="/edit-profile"
+          path="/profile-update"
           element={
             <Sidebar>
               <Layout>
-                <EditProfile />
+                <ProfileUpdate />
               </Layout>
             </Sidebar>
           }
@@ -114,6 +118,9 @@ function App() {
             </Sidebar>
           }
         />
+
+        {/* 404 Page */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

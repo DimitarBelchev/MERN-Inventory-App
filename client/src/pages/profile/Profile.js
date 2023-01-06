@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import Card from "../../components/card/Card";
-import { SpinnerImg } from "../../components/loader/Loader";
-import useRedirectLoggedOutUser from "../../customHook/useRedirectLoggedOutUser";
-import { SET_NAME, SET_USER } from "../../redux/features/auth/authSlice";
-import { getUser } from "../../services/authService";
 import "./Profile.scss";
+import Card from "../../components/card/Card";
+import { useDispatch } from "react-redux";
+import { SAVE_USER, SET_NAME } from "../../redux/features/auth/authSlice";
+import useRedirectLoggedOutUser from "../../customHook/useRedirectLoggedOutUser";
+import { Link } from "react-router-dom";
+import { getUser } from "../../services/authService";
+import { SpinnerImg } from "../../components/Loader/Loader";
 
 const Profile = () => {
   useRedirectLoggedOutUser("/login");
-  const dispatch = useDispatch();
-
   const [profile, setProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log("Getting use");
     setIsLoading(true);
     async function getUserData() {
       const data = await getUser();
-      console.log(data);
-
+      // console.log(data);
       setProfile(data);
       setIsLoading(false);
-      await dispatch(SET_USER(data));
-      await dispatch(SET_NAME(data.name));
+      dispatch(SAVE_USER(data));
+      dispatch(SET_NAME(data.name));
     }
     getUserData();
   }, [dispatch]);
@@ -35,28 +33,32 @@ const Profile = () => {
       {isLoading && <SpinnerImg />}
       <>
         {!isLoading && profile === null ? (
-          <p>Something went wrong, please reload the page...</p>
+          <p>Something went wrong!!!</p>
         ) : (
           <Card cardClass={"card --flex-dir-column"}>
             <span className="profile-photo">
               <img src={profile?.photo} alt="profilepic" />
             </span>
+
             <span className="profile-data">
               <p>
-                <b>Name : </b> {profile?.name}
+                <b>Name :</b> {profile?.name}
               </p>
               <p>
-                <b>Email : </b> {profile?.email}
+                <b>Email :</b>{" "}
+                <b className="--color-danger">{profile?.email}</b>
               </p>
               <p>
-                <b>Phone : </b> {profile?.phone}
+                <b>Phone :</b> {profile?.phone}
               </p>
               <p>
-                <b>Bio : </b> {profile?.bio}
+                <b>Bio :</b> {profile?.bio}
               </p>
               <div>
-                <Link to="/edit-profile">
-                  <button className="--btn --btn-primary">Edit Profile</button>
+                <Link to="/profile-update">
+                  <button className="--btn --btn-primary --mt">
+                    Edit Profile
+                  </button>
                 </Link>
               </div>
             </span>

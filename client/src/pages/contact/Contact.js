@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Card from "../../components/card/Card";
 import "./Contact.scss";
 import { FaPhoneAlt, FaEnvelope, FaTwitter } from "react-icons/fa";
 import { GoLocation } from "react-icons/go";
-import { toast } from "react-toastify";
+import Card from "../../components/card/Card";
+import { useState } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "../../services/authService";
+import { SERVER_URL } from "../../App";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const [subject, setSubject] = useState("");
@@ -17,22 +17,24 @@ const Contact = () => {
 
   const sendEmail = async (e) => {
     e.preventDefault();
+    console.log(subject, message);
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/contactus`, data);
+      const response = await axios.post(`${SERVER_URL}/api/contactus`, data);
+      console.log(response.data);
       setSubject("");
       setMessage("");
-      toast.success(response.data.message);
+      toast.info(response.data.message);
     } catch (error) {
       toast.error(error.message);
     }
   };
 
   return (
-    <div className="contact">
+    <div className={"contact"}>
       <h3 className="--mt">Contact Us</h3>
-      <div className="section">
+      <div className={"section"}>
         <form onSubmit={sendEmail}>
-          <Card cardClass="card">
+          <Card cardClass={"card"}>
             <label>Subject</label>
             <input
               type="text"
@@ -46,8 +48,6 @@ const Contact = () => {
             <textarea
               cols="30"
               rows="10"
-              name="message"
-              required
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             ></textarea>
@@ -55,15 +55,14 @@ const Contact = () => {
           </Card>
         </form>
 
-        <div className="details">
+        <div className={"details"}>
           <Card cardClass={"card2"}>
             <h3>Our Contact Information</h3>
             <p>Fill the form or contact us via other channels listed below</p>
-
-            <div className="icons">
+            <div className={"icons"}>
               <span>
                 <FaPhoneAlt />
-                <p>0123456789</p>
+                <p>123456789</p>
               </span>
               <span>
                 <FaEnvelope />

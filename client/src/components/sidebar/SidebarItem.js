@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
@@ -7,8 +7,13 @@ const activeSublink = ({ isActive }) => (isActive ? "active" : "link");
 
 const SidebarItem = ({ item, isOpen }) => {
   const [expandMenu, setExpandMenu] = useState(false);
+  useEffect(() => {
+    if (isOpen === false) {
+      setExpandMenu(false);
+    }
+  }, [isOpen]);
 
-  if (item.children) {
+  if (item.childrens) {
     return (
       <div
         className={
@@ -27,10 +32,15 @@ const SidebarItem = ({ item, isOpen }) => {
           />
         </div>
         <div className="sidebar-content">
-          {item.children.map((child, index) => {
+          {item.childrens.map((child, index) => {
             return (
               <div key={index} className="s-child">
-                <NavLink to={child.path} className={activeSublink}>
+                <NavLink
+                  to={child.path}
+                  // className="sublink"
+                  // activeClassName="active"
+                  className={activeSublink}
+                >
                   <div className="sidebar-item">
                     <div className="sidebar-title">
                       <span>
@@ -48,7 +58,12 @@ const SidebarItem = ({ item, isOpen }) => {
     );
   } else {
     return (
-      <NavLink to={item.path} className={activeLink}>
+      <NavLink
+        to={item.path}
+        // className="link"
+        // activeClassName="active"
+        className={activeLink}
+      >
         <div className="sidebar-item s-parent">
           <div className="sidebar-title">
             <span>

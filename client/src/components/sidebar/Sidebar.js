@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import SidebarItem from "./SidebarItem";
 import "./Sidebar.scss";
 import { HiMenuAlt3 } from "react-icons/hi";
-import { RiSurveyLine } from "react-icons/ri";
 import menu from "../../data/sidebar";
-import SidebarItem from "./SidebarItem";
+import { RiProductHuntLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ children }) => {
@@ -17,19 +17,18 @@ const Sidebar = ({ children }) => {
 
   return (
     <div className="layout">
-      <div className="sidebar" style={{ width: isOpen ? "230px" : "60px" }}>
+      <div style={{ width: isOpen ? "230px" : "60px" }} className="sidebar">
         <div className="top_section">
-          <div className="logo" style={{ display: isOpen ? "block" : "none" }}>
-            <RiSurveyLine
+          <div style={{ display: isOpen ? "block" : "none" }} className="logo">
+            <RiProductHuntLine
               size={35}
-              style={{ cursor: "pointer" }}
               onClick={goHome}
+              style={{ cursor: "pointer" }}
             />
           </div>
-
           <div
-            className="bars"
             style={{ marginLeft: isOpen ? "100px" : "0px" }}
+            className="bars"
           >
             <HiMenuAlt3 onClick={toggle} />
           </div>
@@ -38,7 +37,6 @@ const Sidebar = ({ children }) => {
           return <SidebarItem key={index} item={item} isOpen={isOpen} />;
         })}
       </div>
-
       <main
         style={{
           paddingLeft: isOpen ? "230px" : "60px",

@@ -492,8 +492,7 @@ a:hover {
   color: #fff;
   background-color: var(--light-blue);
 }
-.activePage {
+.pagination .active {
   color: #fff;
   background-color: var(--light-blue);
-  height: 100%;
 }

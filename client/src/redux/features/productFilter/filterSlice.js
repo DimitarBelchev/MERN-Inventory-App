@@ -8,7 +8,7 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    FILTER_PRODUCTS(state, action) {
+    FILTER_BY_SEARCH(state, action) {
       const { products, search } = action.payload;
       const tempProducts = products.filter(
         (product) =>
@@ -21,8 +21,8 @@ const filterSlice = createSlice({
   },
 });
 
-export const { FILTER_PRODUCTS } = filterSlice.actions;
+export const { FILTER_BY_SEARCH } = filterSlice.actions;
 
-export const selectFilteredPoducts = (state) => state.filter.filteredProducts;
+export const selectFilteredProducts = (state) => state.filter.filteredProducts;
 
 export default filterSlice.reducer;

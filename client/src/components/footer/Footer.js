@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="--flex-center --py2">
-      <p>Created by Dimitar Belchev</p>
+      <p>Made By Dimitar Belchev &copy; 2023</p>
     </div>
   );
 };

@@ -1,24 +1,25 @@
 import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import useRedirectLoggedOutUser from "../../../customHook/useRedirectLoggedOutUser";
-import { selectIsLoggedIn } from "../../../redux/features/auth/authSlice";
 import { getProduct } from "../../../redux/features/product/productSlice";
-import Card from "../../card/Card";
-import { SpinnerImg } from "../../loader/Loader";
+import { selectIsLoggedIn } from "../../../redux/features/auth/authSlice";
 import "./ProductDetail.scss";
+import Card from "../../card/Card";
+import { SERVER_URL } from "../../../App";
 import DOMPurify from "dompurify";
+import useRedirectLoggedOutUser from "../../../customHook/useRedirectLoggedOutUser";
+import { SpinnerImg } from "../../Loader/Loader";
 
 const ProductDetail = () => {
   useRedirectLoggedOutUser("/login");
-  const dispatch = useDispatch();
-
   const { id } = useParams();
-
+  //   console.log(id);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { product, isLoading, isError, message } = useSelector(
     (state) => state.product
   );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const stockStatus = (quantity) => {
     if (quantity > 0) {
@@ -28,36 +29,41 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn === true) {
-      dispatch(getProduct(id));
-    }
-
     if (isError) {
       console.log(message);
     }
-  }, [isLoggedIn, isError, message, dispatch]);
 
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+
+    dispatch(getProduct(id));
+  }, [id, isLoggedIn, navigate, isError, message, dispatch]);
   return (
     <div className="product-detail">
       <h3 className="--mt">Product Detail</h3>
       <Card cardClass="card">
+        {/* Loading Spinner */}
         {isLoading && <SpinnerImg />}
         {product && (
           <div className="detail">
-            <Card cardClass="group">
+            <Card cardClass={"group"}>
               {product?.image ? (
                 <img
-                  src={product.image.filePath}
-                  alt={product.image.fileName}
+                  src={`${product.image.filePath}`}
+                  height="250"
+                  width={"100%"}
+                  alt={`${product.image.fileName}`}
                 />
               ) : (
                 <p>No image set for this product</p>
               )}
             </Card>
-            <h4>Product Availability: {stockStatus(product.quantity)}</h4>
+            <h4>Product Availablity: {stockStatus(product.quantity)}</h4>
+
             <hr />
             <h4>
-              <span className="badge">Name: </span> &nbsp; {product.name}
+              <span className="badge">Name : </span> &nbsp;{product.name}
             </h4>
             <p>
               <b>&rarr; SKU : </b> {product.sku}
@@ -73,10 +79,14 @@ const ProductDetail = () => {
               <b>&rarr; Quantity in stock : </b> {product.quantity}
             </p>
             <p>
-              <b>&rarr; Total Value in stock : </b> {"$"}
+              <b>&rarr;Total Value in stock : </b>
+              {"$"}
               {product.price * product.quantity}
             </p>
             <hr />
+            <p>
+              <b>&rarr; Description:</b>
+            </p>
             <div
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(product.description),
@@ -88,7 +98,7 @@ const ProductDetail = () => {
             </code>
             <br />
             <code className="--color-dark">
-              Last Updated: {product.updatedAt.toLocaleString("en-US")}
+              Last updated: {product.updatedAt.toLocaleString("en-US")}
             </code>
           </div>
         )}

@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { SpinnerImg } from "../../loader/Loader";
 import "./productList.scss";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
-import Search from "../../search/Search";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  FILTER_PRODUCTS,
-  selectFilteredPoducts,
-} from "../../../redux/features/product/filterSlice";
-import ReactPaginate from "react-paginate";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import { Link } from "react-router-dom";
 import {
   deleteProduct,
   getProducts,
 } from "../../../redux/features/product/productSlice";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import Search from "../../search/Search";
+import {
+  FILTER_BY_SEARCH,
+  selectFilteredProducts,
+} from "../../../redux/features/productFilter/filterSlice";
+import ReactPaginate from "react-paginate";
+import { SpinnerImg } from "../../Loader/Loader";
 
 const ProductList = ({ products, isLoading }) => {
   const [search, setSearch] = useState("");
-  const filteredProducts = useSelector(selectFilteredPoducts);
-
   const dispatch = useDispatch();
+
+  const filteredProducts = useSelector(selectFilteredProducts);
 
   const shortenText = (text, n) => {
     if (text.length > n) {
@@ -33,15 +33,15 @@ const ProductList = ({ products, isLoading }) => {
   };
 
   const delProduct = async (id) => {
-    console.log(id);
+    // alert(id);
     await dispatch(deleteProduct(id));
     await dispatch(getProducts());
   };
 
   const confirmDelete = (id) => {
     confirmAlert({
-      title: "Delete Product",
-      message: "Are you sure you want to delete this product.",
+      title: "Delete Product!!!",
+      message: "Are you sure to do delete product.",
       buttons: [
         {
           label: "Delete",
@@ -49,13 +49,13 @@ const ProductList = ({ products, isLoading }) => {
         },
         {
           label: "Cancel",
-          // onClick: () => alert('Click No')
+          // onClick: () => alert("Click No")
         },
       ],
     });
   };
 
-  //   Begin Pagination
+  // ** Begin Pagination
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -63,20 +63,20 @@ const ProductList = ({ products, isLoading }) => {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-
     setCurrentItems(filteredProducts.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(filteredProducts.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, filteredProducts]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % filteredProducts.length;
+
     setItemOffset(newOffset);
   };
-  //   End Pagination
+  // ** End Pagination
 
   useEffect(() => {
-    dispatch(FILTER_PRODUCTS({ products, search }));
-  }, [products, search, dispatch]);
+    dispatch(FILTER_BY_SEARCH({ products, search }));
+  }, [dispatch, products, search]);
 
   return (
     <div className="product-list">
@@ -94,11 +94,12 @@ const ProductList = ({ products, isLoading }) => {
           </span>
         </div>
 
+        {/* Loading Spinner */}
         {isLoading && <SpinnerImg />}
-
+        {/* Product List Table */}
         <div className="table">
           {!isLoading && products.length === 0 ? (
-            <p>-- No product found, please add a product...</p>
+            <p>-- No Product found, please add a product...</p>
           ) : (
             <table>
               <thead>
@@ -106,19 +107,18 @@ const ProductList = ({ products, isLoading }) => {
                   <th>s/n</th>
                   <th>Name</th>
                   <th>Category</th>
-                  <th>Price</th>
+                  <th>price</th>
                   <th>Quantity</th>
                   <th>Value</th>
                   <th>Action</th>
                 </tr>
               </thead>
-
               <tbody>
                 {currentItems.map((product, index) => {
                   const { _id, name, category, price, quantity } = product;
                   return (
                     <tr key={_id}>
-                      <td>{index + 1}</td>
+                      <td>{index + 1}.</td>
                       <td>{shortenText(name, 16)}</td>
                       <td>{category}</td>
                       <td>
@@ -133,18 +133,18 @@ const ProductList = ({ products, isLoading }) => {
                       <td className="icons">
                         <span>
                           <Link to={`/product-detail/${_id}`}>
-                            <AiOutlineEye size={25} color={"purple"} />
+                            <AiOutlineEye size={25} color="purple" />
                           </Link>
                         </span>
                         <span>
                           <Link to={`/edit-product/${_id}`}>
-                            <FaEdit size={20} color={"green"} />
+                            <FaEdit size={20} color="green" />
                           </Link>
                         </span>
                         <span>
                           <FaTrashAlt
-                            size={20}
-                            color={"red"}
+                            size={18}
+                            color="red"
                             onClick={() => confirmDelete(_id)}
                           />
                         </span>
@@ -156,6 +156,7 @@ const ProductList = ({ products, isLoading }) => {
             </table>
           )}
         </div>
+        {/* Paginate */}
         <ReactPaginate
           breakLabel="..."
           nextLabel="Next"
@@ -168,7 +169,7 @@ const ProductList = ({ products, isLoading }) => {
           pageLinkClassName="page-num"
           previousLinkClassName="page-num"
           nextLinkClassName="page-num"
-          activeLinkClassName="activePage"
+          activeLinkClassName="active"
         />
       </div>
     </div>

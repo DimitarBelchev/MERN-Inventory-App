@@ -1,9 +1,8 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Card from "../../card/Card";
-
-import "./ProductForm.scss";
+import Card from "../../components/card/Card";
+import "./AddProduct.scss";
 
 const ProductForm = ({
   product,
@@ -20,19 +19,20 @@ const ProductForm = ({
       <Card cardClass={"card"}>
         <form onSubmit={saveProduct}>
           <Card cardClass={"group"}>
-            <label>Product Image</label>
+            <label>Product Image:</label>
             <code className="--color-dark">
               Supported Formats: jpg, jpeg, png
             </code>
             <input
               type="file"
+              // accept="image/*"
               name="image"
               onChange={(e) => handleImageChange(e)}
             />
 
             {imagePreview != null ? (
               <div className="image-preview">
-                <img src={imagePreview} alt="product" />
+                <img src={imagePreview} alt="UploadImage" />
               </div>
             ) : (
               <p>No image set for this poduct.</p>
@@ -46,7 +46,6 @@ const ProductForm = ({
             value={product?.name}
             onChange={handleInputChange}
           />
-
           <label>Product Category:</label>
           <input
             type="text"
@@ -55,7 +54,6 @@ const ProductForm = ({
             value={product?.category}
             onChange={handleInputChange}
           />
-
           <label>Product Price:</label>
           <input
             type="text"
@@ -64,7 +62,6 @@ const ProductForm = ({
             value={product?.price}
             onChange={handleInputChange}
           />
-
           <label>Product Quantity:</label>
           <input
             type="text"
@@ -73,7 +70,6 @@ const ProductForm = ({
             value={product?.quantity}
             onChange={handleInputChange}
           />
-
           <label>Product Description:</label>
           <ReactQuill
             theme="snow"
@@ -82,7 +78,6 @@ const ProductForm = ({
             modules={ProductForm.modules}
             formats={ProductForm.formats}
           />
-
           <div className="--my">
             <button type="submit" className="--btn --btn-primary">
               Save Product

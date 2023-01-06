@@ -15,14 +15,14 @@ const menu = [
   {
     title: "Account",
     icon: <FaRegChartBar />,
-    children: [
+    childrens: [
       {
         title: "Profile",
         path: "/profile",
       },
       {
         title: "Edit Profile",
-        path: "/edit-profile",
+        path: "/profile-update",
       },
     ],
   },

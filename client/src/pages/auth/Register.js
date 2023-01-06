@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./auth.module.scss";
 import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser, validateEmail } from "../../services/authService";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
 import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
-import Loader from "../../components/loader/Loader";
+import Loader from "../../components/Loader/Loader";
 
 const initialState = {
   name: "",
@@ -17,20 +17,21 @@ const initialState = {
 };
 
 const Register = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setformData] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
   const { name, email, password, password2 } = formData;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setformData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
   const register = async (e) => {
     e.preventDefault();
 
+    // Validation
     if (!name || !email || !password) {
       return toast.error("All fields are required");
     }
@@ -46,12 +47,12 @@ const Register = () => {
     if (password !== password2) {
       return toast.error("Passwords do not match");
     }
-
     const userData = {
       name,
       email,
       password,
     };
+    console.log(userData);
     setIsLoading(true);
     try {
       const data = await registerUser(userData);
@@ -62,11 +63,12 @@ const Register = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      console.log(error.message);
     }
   };
 
   return (
-    <div className={`container ${styles.auth}`}>
+    <section className={`container ${styles.auth}`}>
       {isLoading && <Loader />}
       <Card>
         <div className={styles.form}>
@@ -114,13 +116,13 @@ const Register = () => {
           </form>
 
           <span className={styles.register}>
-            <Link to="/">Home</Link>
-            <p> &nbsp; Already have an account? &nbsp;</p>
+            <Link to="/"> Home </Link>
+            <p>&nbsp; Already an account? &nbsp;</p>
             <Link to="/login">Login</Link>
           </span>
         </div>
       </Card>
-    </div>
+    </section>
   );
 };
 

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import "./ChangePassword.scss";
 import { toast } from "react-toastify";
 import { changePassword } from "../../services/authService";
 import Card from "../card/Card";
-import { useNavigate } from "react-router-dom";
+import "./ChangePassword.scss";
 
 const initialState = {
   oldPassword: "",
@@ -12,30 +11,27 @@ const initialState = {
 };
 
 const ChangePassword = () => {
-  const navigate = useNavigate();
-  const [formData, setformData] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
   const { oldPassword, password, password2 } = formData;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setformData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
   const changePass = async (e) => {
     e.preventDefault();
-
+    // console.log(formData);
     if (password !== password2) {
       return toast.error("New passwords do not match");
     }
-
-    const formData = {
+    const pass = {
       oldPassword,
       password,
     };
-
-    const data = await changePassword(formData);
+    const data = await changePassword(pass);
+    // console.log(data);
     toast.success(data);
-    navigate("/profile");
   };
 
   return (
@@ -67,8 +63,9 @@ const ChangePassword = () => {
             value={password2}
             onChange={handleInputChange}
           />
+
           <button type="submit" className="--btn --btn-primary">
-            Change Password
+            Reset Password
           </button>
         </form>
       </Card>
