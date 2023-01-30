@@ -61,7 +61,7 @@ const ProfileUpdate = () => {
         image.append("upload_preset", "huyroyzn");
         image.append("cloud_name", "dz7tvwilp");
 
-        // First, save the image to cloudinary
+        //save the image to cloudinary
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/dz7tvwilp/image/upload",
           { method: "post", body: image }
