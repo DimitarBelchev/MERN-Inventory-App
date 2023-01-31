@@ -42,12 +42,13 @@ const Home = () => {
             Inventory & Stock <span>Management</span> <span>Solution</span>
           </h2>
           <p>
-            Inventory system to control and manage proucts in the warehouse in
-            real timeand integrated to make it easier to develop your business.
+            Inventory system to control and manage products in your warehouse.
           </p>
           <div className="hero-buttons">
             <button className="--btn --btn-secondary">
-              <Link to="/register">Free Trial 1 Month</Link>
+              <Link to="/register">
+                Make your life easier by signing up today!
+              </Link>
             </button>
           </div>
           <div className="--flex-start">
