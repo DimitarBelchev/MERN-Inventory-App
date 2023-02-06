@@ -31,8 +31,16 @@ const AddProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setProduct({ ...product, [name]: value });
+  // };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "price" || name === "quantity") {
+      if (value !== "" && !/^\d+$/.test(value)) return;
+    }
     setProduct({ ...product, [name]: value });
   };
 

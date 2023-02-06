@@ -41,6 +41,9 @@ const EditProduct = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "price" || name === "quantity") {
+      if (value !== "" && !/^\d+$/.test(value)) return;
+    }
     setProduct({ ...product, [name]: value });
   };
 

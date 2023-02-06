@@ -54,7 +54,7 @@ const ProductForm = ({
             value={product?.category}
             onChange={handleInputChange}
           />
-          <label>Product Price:</label>
+          <label>Product Price($):</label>
           <input
             type="text"
             placeholder="Product Price"

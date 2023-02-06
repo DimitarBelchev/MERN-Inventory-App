@@ -51,8 +51,8 @@ const ProductDetail = () => {
               {product?.image ? (
                 <img
                   src={`${product.image.filePath}`}
-                  height="250"
-                  width={"100%"}
+                  height="300"
+                  width={"50%"}
                   alt={`${product.image.fileName}`}
                 />
               ) : (
